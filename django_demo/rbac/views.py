@@ -4,10 +4,15 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from .models import User
 
 
 class UserView(APIView):
 
-    def get(self):
-        response = Response({'message': '服务器内部错误'}, status=status.HTTP_507_INSUFFICIENT_STORAGE)
+    def get(self, request, *args, **kwargs):
+        print('UserView')
+        user_list = User.objects.all()
+        print(user_list)
+        response = Response(user_list, status=status.HTTP_200_OK)
         return response
+
