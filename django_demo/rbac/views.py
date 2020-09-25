@@ -2,17 +2,19 @@ from django.shortcuts import render
 
 # Create your views here.
 from rest_framework import status
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import User
+from rest_framework.viewsets import ModelViewSet
+
+from .models import User, Organization
+from .serializers.serializers import UserSerializer, OrganizationSerializer
 
 
-class UserView(APIView):
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-    def get(self, request, *args, **kwargs):
-        print('UserView')
-        user_list = User.objects.all()
-        print(user_list)
-        response = Response(user_list, status=status.HTTP_200_OK)
-        return response
+
+class OrganizationViewSet(ModelViewSet):
+    queryset = Organization.objects.all()
+    serializer_class = OrganizationSerializer
 
