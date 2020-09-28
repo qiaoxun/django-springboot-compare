@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
-export function list() {
+export function list(params) {
   return request({
     url: 'rbac/org',
-    method: 'get'
+    method: 'get',
+    params
   })
 }
 

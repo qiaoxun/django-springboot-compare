@@ -25,6 +25,12 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination
+        :total="total"
+        style="margin-top: 8px;"
+        layout="total, prev, pager, next, sizes"
+        @size-change="sizeChange"
+        @current-change="pageChange"/>
       
       <el-dialog title="User" :visible.sync="dialogFormVisible" style="text-align:left;">
         <el-form :model="form" label-position="right" label-width="120px">
@@ -69,8 +75,10 @@
 
 import userRequest from '@/api/user'
 import orgRequest from '@/api/organization'
+import initData from '@/mixins/initData'
 
 export default {
+  mixins: [initData],
   data() {
     return {
       dialogFormVisible: false,
@@ -88,13 +96,22 @@ export default {
     }
   },
   mounted() {
-    this.listUsers()
+    this.init()
   },
   methods: {
-    listUsers() {
-      userRequest.list(this.$route.query.org_id).then(res => {
-        this.tableData = res
-        console.log(this.tableData)
+    init() {
+      // userRequest.list(this.$route.query.org_id).then(res => {
+      //   this.tableData = res.results
+      //   console.log(this.tableData)
+      // })
+      const query = this.query
+      const value = query.value
+      const sort = 'id'
+      this.params = { page: this.page, size: this.size, ordering: sort }
+      if (value) { this.params['search'] = value }
+      userRequest.list(this.$route.query.org_id, this.params).then(res => {
+        this.tableData = res.results
+        this.total = res.count
       })
     },
     handleAdd() {
@@ -113,7 +130,7 @@ export default {
     confirmAdd() {
       this.dialogFormVisible = false
       userRequest.add(this.form).then(() => {
-        this.listUsers()
+        this.init()
         this.$message({
           type: 'success',
           message: 'Add completed'
@@ -129,7 +146,7 @@ export default {
     confirmEdit() {
       this.dialogFormVisible = false
       userRequest.update(this.form.id, this.form).then(() => {
-        this.listUsers()
+        this.init()
         this.$message({
           type: 'success',
           message: 'Edit completed'
@@ -144,7 +161,7 @@ export default {
       }).then(() => {
         userRequest.del(row.id).then(res => {
           console.log(res)
-          this.listUsers()
+          this.init()
           this.$message({
             type: 'success',
             message: 'Delete completed'

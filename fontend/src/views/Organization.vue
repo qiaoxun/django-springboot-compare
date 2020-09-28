@@ -9,15 +9,14 @@
         </el-table-column>
         <el-table-column label="Parent" prop="parent" width="180">
         </el-table-column>
-        <el-table-column label="Users" width="180">
+        <el-table-column label="Users" width="120">
           <template slot-scope="scope">
             <el-button
               size="mini"
               @click="go(scope.$index, scope.row)">Users</el-button>
           </template>
         </el-table-column>
-        <el-table-column
-          label="Operations">
+        <el-table-column label="Operations" width="180">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -29,6 +28,12 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination
+        :total="total"
+        style="margin-top: 8px;"
+        layout="total, prev, pager, next, sizes"
+        @size-change="sizeChange"
+        @current-change="pageChange"/>
       
       <el-dialog title="Orgnization" :visible.sync="dialogFormVisible" style="text-align:left;">
         <el-form :model="form" label-position="right" label-width="120px">
@@ -70,8 +75,10 @@
 <script>
 
 import orgRequest from '@/api/organization'
+import initData from '@/mixins/initData'
 
 export default {
+  mixins: [initData],
   data() {
     return {
       dialogFormVisible: false,
@@ -95,13 +102,18 @@ export default {
     }
   },
   mounted() {
-    this.listUsers()
+    this.init()
   },
   methods: {
-    listUsers() {
-      orgRequest.list().then(res => {
-        this.tableData = res
-        console.log(this.tableData)
+    init() {
+      const query = this.query
+      const value = query.value
+      const sort = 'id'
+      this.params = { page: this.page, size: this.size, ordering: sort }
+      if (value) { this.params['search'] = value }
+      orgRequest.list(this.params).then(res => {
+        this.tableData = res.results
+        this.total = res.count
       })
     },
     handleAdd() {
@@ -116,7 +128,7 @@ export default {
     confirmAdd() {
       this.dialogFormVisible = false
       orgRequest.add(this.form).then(() => {
-        this.listUsers()
+        this.init()
         this.$message({
           type: 'success',
           message: 'Add completed'
@@ -131,7 +143,7 @@ export default {
     confirmEdit() {
       this.dialogFormVisible = false
       orgRequest.update(this.form.id, this.form).then(() => {
-        this.listUsers()
+        this.init()
         this.$message({
           type: 'success',
           message: 'Edit completed'
@@ -146,7 +158,7 @@ export default {
       }).then(() => {
         orgRequest.del(row.id).then(res => {
           console.log(res)
-          this.listUsers()
+          this.init()
           this.$message({
             type: 'success',
             message: 'Delete completed'
