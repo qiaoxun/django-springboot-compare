@@ -100,10 +100,6 @@ export default {
   },
   methods: {
     init() {
-      // userRequest.list(this.$route.query.org_id).then(res => {
-      //   this.tableData = res.results
-      //   console.log(this.tableData)
-      // })
       const query = this.query
       const value = query.value
       const sort = 'id'
