@@ -49,7 +49,7 @@
           <el-form-item label="Email">
             <el-input v-model="form.email" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="Orgnization">
+          <!-- <el-form-item label="Orgnization">
             <el-select v-model="form.organization" placeholder="Select">
               <el-option
                 v-for="item in orgs"
@@ -58,7 +58,7 @@
                 :value="item.id">
               </el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">Cancel</el-button>
@@ -118,9 +118,9 @@ export default {
         last_name: '',
         password: '',
         email: '',
-        organization: null
+        organization: this.$route.query.org_id
       }
-      this.loadOrg()
+      // this.loadOrg()
       this.dialogFormVisible = true
     },
     confirmAdd() {
@@ -135,7 +135,7 @@ export default {
     },
     handleEdit(index, row) {
       this.operationType = 'edit'
-      this.loadOrg()
+      // this.loadOrg()
       this.form = row
       this.dialogFormVisible = true
     },

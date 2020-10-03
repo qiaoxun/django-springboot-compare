@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function list(params) {
   return request({
-    url: 'rbac/org',
+    url: 'rbac/org/',
     method: 'get',
     params
   })
