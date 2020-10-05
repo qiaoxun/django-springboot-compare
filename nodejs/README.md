@@ -1,5 +1,0 @@
-Express
-
-Koa
-
-express-generator

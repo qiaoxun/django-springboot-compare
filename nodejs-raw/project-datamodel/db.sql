@@ -1,5 +1,5 @@
 create database `nodejs_raw`;
-use `nodejs-raw`;
+use `nodejs_raw`;
 
 CREATE TABLE `nodejs_raw`.`user` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
