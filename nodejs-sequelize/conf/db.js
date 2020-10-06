@@ -13,6 +13,7 @@ const {
 const sequelize = new Sequelize(database, user, password, {
   dialect: 'mysql',
   host,
+  port,
   dialectOptions: {
     // Your mysql2 options here
   },

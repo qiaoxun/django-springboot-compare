@@ -1,10 +1,17 @@
-const {DataTypes, Model, Deferrable} = require('sequelize')
-const {sequelize} = require('../../conf/db')
+const {
+    DataTypes,
+    Model,
+    Deferrable
+} = require('sequelize')
+const {
+    sequelize
+} = require('../../conf/db')
 
-const {Organization} = require('./organization')
+const {
+    Organization
+} = require('./organization')
 
-// const User = sequelize.define('user', 
-//     {
+// const User = sequelize.define('User', {
 //         name: {
 //             type: DataTypes.STRING,
 //             allowNull: false
@@ -23,21 +30,6 @@ const {Organization} = require('./organization')
 //         },
 //         organizationId: {
 //             type: DataTypes.INTEGER,
-
-//             // references: {
-//             //     // This is a reference to another model
-//             //     model: Organization,
-        
-//             //     // This is the column name of the referenced model
-//             //     key: 'id',
-        
-//             //     // With PostgreSQL, it is optionally possible to declare when to check the foreign key constraint, passing the Deferrable type.
-//             //     deferrable: Deferrable.INITIALLY_IMMEDIATE
-//             //     // Options:
-//             //     // - `Deferrable.INITIALLY_IMMEDIATE` - Immediately check the foreign key constraints
-//             //     // - `Deferrable.INITIALLY_DEFERRED` - Defer all foreign key constraint check to the end of a transaction
-//             //     // - `Deferrable.NOT` - Don't defer the checks at all (default) - This won't allow you to dynamically change the rule in a transaction
-//             //   }
 //         }
 //     }
 // );
@@ -49,10 +41,10 @@ User.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    firstName: {
+    first_name: {
         type: DataTypes.STRING
     },
-    lastName: {
+    last_name: {
         type: DataTypes.STRING
     },
     password: {
@@ -61,16 +53,16 @@ User.init({
     email: {
         type: DataTypes.STRING
     },
-    organizationId: {
+    organization_id: {
         type: DataTypes.INTEGER,
 
         // references: {
         //     // This is a reference to another model
         //     model: Organization,
-      
+
         //     // This is the column name of the referenced model
         //     key: 'id',
-      
+
         //     // With PostgreSQL, it is optionally possible to declare when to check the foreign key constraint, passing the Deferrable type.
         //     deferrable: Deferrable.INITIALLY_IMMEDIATE
         //     // Options:
@@ -90,7 +82,7 @@ User.init({
 //     User.belongsTo(Organization, {foreignKey: 'organizationId', targetKey: 'id'})
 // }
 
-User.belongsTo(Organization, {foreignKey: 'organizationId', targetKey: 'id'})
+// User.belongsTo(Organization, {foreignKey: 'organizationId', targetKey: 'id'})
 
 module.exports = {
     User

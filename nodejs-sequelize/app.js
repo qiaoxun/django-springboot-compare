@@ -8,6 +8,8 @@ const favicon = require('serve-favicon');
 const user = require('./routes/rbac/user');
 const organization = require('./routes/rbac/organization');
 
+require('./model/setup')
+
 const app = express();
 
 const allowCrossDomain = function(req, res, next) {
