@@ -2,6 +2,7 @@ package com.qiao.springbootjpa.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import com.qiao.springbootjpa.service.dto.UserDto;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -38,7 +39,7 @@ public class User implements Serializable {
     @JoinColumn(name = "organization_id")
     private Organization organization;
 
-    public void copy(User source){
+    public void copy(UserDto source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }
 }

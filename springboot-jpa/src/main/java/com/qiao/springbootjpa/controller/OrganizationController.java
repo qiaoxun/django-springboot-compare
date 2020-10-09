@@ -2,6 +2,7 @@ package com.qiao.springbootjpa.controller;
 
 import com.qiao.springbootjpa.domain.Organization;
 import com.qiao.springbootjpa.service.OrganizationService;
+import com.qiao.springbootjpa.service.dto.OrganizationDto;
 import com.qiao.springbootjpa.utils.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,14 +28,14 @@ public class OrganizationController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Object> createOrganization(@RequestBody Organization Organization) {
-        organizationService.createOrganization(Organization);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<Object> createOrganization(@RequestBody OrganizationDto organizationDto) {
+        organizationService.createOrganization(organizationDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{id}/")
-    public ResponseEntity<Object> updateOrganization(@PathVariable("id") Long id, @RequestBody Organization organization) {
-        organizationService.updateOrganization(id, organization);
+    public ResponseEntity<Object> updateOrganization(@PathVariable("id") Long id, @RequestBody OrganizationDto organizationDto) {
+        organizationService.updateOrganization(id, organizationDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

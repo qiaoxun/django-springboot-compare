@@ -3,6 +3,7 @@ package com.qiao.springbootjpa.controller;
 import com.qiao.springbootjpa.domain.Organization;
 import com.qiao.springbootjpa.domain.User;
 import com.qiao.springbootjpa.service.UserService;
+import com.qiao.springbootjpa.service.dto.UserDto;
 import com.qiao.springbootjpa.utils.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,14 +28,14 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Object> createUser(@RequestBody User user) {
-        userService.createUser(user);
+    public ResponseEntity<Object> createUser(@RequestBody UserDto userDto) {
+        userService.createUser(userDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}/")
-    public ResponseEntity<Object> updateUser(@PathVariable("id") long id, @RequestBody User user) {
-        userService.updateUser(id, user);
+    public ResponseEntity<Object> updateUser(@PathVariable("id") long id, @RequestBody UserDto userDto) {
+        userService.updateUser(id, userDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

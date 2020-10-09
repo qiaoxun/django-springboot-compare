@@ -2,6 +2,7 @@ package com.qiao.springbootjpa.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import com.qiao.springbootjpa.service.dto.OrganizationDto;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,7 +27,7 @@ public class Organization {
     @JoinColumn(name = "pid")
     private Organization parent;
 
-    public void copy(Organization source){
+    public void copy(OrganizationDto source){
         BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
     }
 }

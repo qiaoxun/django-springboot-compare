@@ -1,17 +1,8 @@
 
 server:
-  port: 8009
+  port: 9007
 
-##配置 Jpa
-#jpa:
-#  properties:
-#    hibernate:
-#      ddl-auto: none
-#      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-#      enable_lazy_load_no_trans: true
-#  open-in-view: true
 
-#配置数据源
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -21,7 +12,5 @@ spring:
 
   jpa:
     hibernate:
-      #     更新或者创建数据表结构
       ddl-auto: update
-    #    控制台显示SQL
     show-sql: true
