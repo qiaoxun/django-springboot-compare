@@ -6,6 +6,7 @@ import com.qiao.springbootjpa.service.UserService;
 import com.qiao.springbootjpa.service.dto.UserDto;
 import com.qiao.springbootjpa.utils.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/")
-    public PageResult<Organization> listUser(Long organizationId) {
-        return userService.listUser(organizationId);
+    public PageResult<Organization> listUser(Long organization, int page, int size) {
+        return userService.listUser(organization, PageRequest.of(page - 1, size));
     }
 
     @GetMapping("{id}/")

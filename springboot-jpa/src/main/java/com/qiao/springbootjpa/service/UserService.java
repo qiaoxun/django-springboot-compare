@@ -6,6 +6,7 @@ import com.qiao.springbootjpa.repository.UserRepository;
 import com.qiao.springbootjpa.service.dto.UserDto;
 import com.qiao.springbootjpa.utils.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -21,9 +22,9 @@ public class UserService {
     @Autowired
     private OrganizationRepository organizationRepository;
 
-    public PageResult listUser(Long organizationId) {
+    public PageResult listUser(Long organizationId, Pageable pageable) {
         Long count = userRepository.countByOrganizationId(organizationId);
-        List<User> userList = userRepository.findByOrganizationId(organizationId);
+        List<User> userList = userRepository.findByOrganizationId(organizationId, pageable);
 
         List<UserDto> results = new ArrayList<>();
         userList.forEach(user -> {
@@ -33,6 +34,7 @@ public class UserService {
                 userDto.setOrganizationId(user.getOrganization().getId());
                 userDto.setOrganizationName(user.getOrganization().getName());
             }
+            results.add(userDto);
         });
 
         return new PageResult(count, results);

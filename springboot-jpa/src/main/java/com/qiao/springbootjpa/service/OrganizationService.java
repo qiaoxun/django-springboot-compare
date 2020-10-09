@@ -5,6 +5,8 @@ import com.qiao.springbootjpa.repository.OrganizationRepository;
 import com.qiao.springbootjpa.service.dto.OrganizationDto;
 import com.qiao.springbootjpa.utils.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,21 +20,25 @@ public class OrganizationService {
     @Autowired
     private OrganizationRepository organizationRepository;
 
-    public PageResult listOrganization() {
-        Long count = organizationRepository.count();
-        List<Organization> orgList = organizationRepository.findAll();
+    public PageResult listOrganization(Pageable pageable) {
+        Page<Organization> page = organizationRepository.findAll(pageable);
 
         List<OrganizationDto> results = new ArrayList<>();
 
-        orgList.forEach(organization -> {
+        page.getContent().forEach(organization -> {
             OrganizationDto dto = new OrganizationDto();
+            if ("company".equals(organization.getType())) {
+                dto.setTypeMeaning("Company");
+            } else {
+                dto.setTypeMeaning("Department");
+            }
             dto.copy(organization);
             if (null != organization.getParent())
                 dto.setParent(organization.getParent().getName());
             results.add(dto);
         });
 
-        return new PageResult(count, results);
+        return new PageResult(page.getTotalElements(), results);
     }
 
     public Organization getOrganization(Long id) {

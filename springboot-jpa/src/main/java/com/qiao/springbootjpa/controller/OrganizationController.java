@@ -5,6 +5,7 @@ import com.qiao.springbootjpa.service.OrganizationService;
 import com.qiao.springbootjpa.service.dto.OrganizationDto;
 import com.qiao.springbootjpa.utils.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,8 @@ public class OrganizationController {
     private OrganizationService organizationService;
 
     @GetMapping("/")
-    public PageResult<Organization> listOrganization() {
-        return organizationService.listOrganization();
+    public PageResult<Organization> listOrganization(int page, int size) {
+        return organizationService.listOrganization(PageRequest.of(page - 1, size));
     }
 
     @GetMapping("{id}/")
