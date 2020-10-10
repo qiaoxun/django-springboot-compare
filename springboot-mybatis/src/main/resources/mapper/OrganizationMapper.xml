@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qiao.springbootmybatis.dao.OrganizationDao" >
+    <resultMap id="BaseResultMap" type="com.qiao.springbootmybatis.entity.Organization" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="parent" property="parent" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+        <result column="type_meaning" property="typeMeaning" jdbcType="VARCHAR" />
+        <result column="pid" property="pid" jdbcType="BIGINT" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, name, type, pid
+    </sql>
+
+    <select id="selectList" resultMap="BaseResultMap" parameterType="map" >
+        select org.id, org.name, org.type, org.pid, if(org.type='company', 'Company', 'Department') type_meaning, parent.name parent
+        from organization org left join organization parent on org.pid = parent.id
+        limit #{begin,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="count" resultType="long">
+        select count(*) from organization
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select organization.name organization_name,
+        <include refid="Base_Column_List" />
+        from organization
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from organization
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.qiao.springbootmybatis.entity.User" >
+        insert into organization (id, name, type, pid)
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR} ,
+        #{pid,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.qiao.springbootmybatis.entity.User" >
+        update organization
+        set name = #{name,jdbcType=VARCHAR},
+        type = #{type,jdbcType=VARCHAR},
+        pid = #{pid,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

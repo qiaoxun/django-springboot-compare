@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qiao.springbootmybatis.dao.UserDao" >
+    <resultMap id="BaseResultMap" type="com.qiao.springbootmybatis.entity.User" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="first_name" property="firstName" jdbcType="VARCHAR" />
+        <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="organization_name" property="organizationName" jdbcType="VARCHAR" />
+        <result column="organization_id" property="organizationId" jdbcType="BIGINT" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, name, password, first_name, last_name, email, organization_id
+    </sql>
+    <select id="selectList" resultMap="BaseResultMap" parameterType="map" >
+        select organization.name organization_name, user.id, user.name, user.password, user.first_name, user.last_name, user.email, user.organization_id
+        from user left join organization on user.organization_id = organization.id
+        where organization_id = #{organizationId,jdbcType=INTEGER}
+        limit #{begin,jdbcType=INTEGER}, #{size,jdbcType=INTEGER}
+    </select>
+
+    <select id="count" resultType="long" parameterType="java.lang.Long" >
+        select count(*) from user
+        where organization_id = #{organizationId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select organization.name organization_name,
+        <include refid="Base_Column_List" />
+        from user left join organization on user.organization_id = organization.id
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from user
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.qiao.springbootmybatis.entity.User" >
+        insert into user (id, name, first_name, last_name, password, email, organization_id)
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+        #{organizationId,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.qiao.springbootmybatis.entity.User" >
+        update user
+        set name = #{name,jdbcType=VARCHAR},
+        first_name = #{firstName,jdbcType=VARCHAR},
+        last_name = #{lastName,jdbcType=VARCHAR},
+        password = #{password,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
+        organization_id = #{organizationId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
